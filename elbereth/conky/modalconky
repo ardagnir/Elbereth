@@ -1,0 +1,36 @@
+background no
+use_xft yes
+xftfont Mono:bold:size=12
+xftalpha 1
+update_interval 0.4
+total_run_times 0
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager
+double_buffer yes
+minimum_size  550
+maximum_width 550
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+default_color 808080
+default_shade_color 101319
+default_outline_color green
+alignment top_left
+gap_x 86
+gap_y 817
+no_buffers yes
+uppercase no
+
+TEXT
+${if_match ${exec cat ~/.config/awesome/conkystate}==0}${color 9b2f1f}  Important Tasks       Due
+${color 4d4129}${execi 1 task -event conkytask | head -6 | tail -3 | cut -c 16-26,31-50 | sed -r 's/(.*)/\1                   /' | sed -r 's/(...........)(....................)/\2   \1/'}
+
+${color 9b2f1f}  Next Events           Date
+${color 4d4129}${execi 5 task +event conkyevent | head -5 | tail -2 | cut -c 16-26,31-50 | sed -r 's/(.*)/\1                   /' | sed -r 's/(...........)(....................)/\2   \1/'}${endif}${if_match ${exec cat ~/.config/awesome/conkystate}==1}${color 9b2f1f}  PID   CPU %     Mem %     Process
+${color 4d4129}${execi 6 top -bn 1 | cut -c 1-5,43-45,46-50,62-70 --output-delimiter='     ' | head -12 | tail -5}
+
+
+${endif}
