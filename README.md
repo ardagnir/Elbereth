@@ -13,7 +13,7 @@ This is my Elbereth theme/rc.lua.
 
 <b>Requirements</b>:<br>
 Awesome window manager 3.4.11<br>
-Tengwar Formal font (http://tengwarformal.limes.com.pl/)<br>
+Tengwar Formal CSUR font (http://freetengwar.sourceforge.net/formal.html)<br>
 blingbling (my screenshots are with my fork, but it should work with the original)
 
 <b>Also uses</b>:<br>
