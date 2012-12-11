@@ -1,7 +1,7 @@
 Elbereth
 ========
 
-This is my Elbereth theme/rc.lua.
+This is my Elbereth theme/rc.lua for AwesomeWM.
 
 <b>Features</b>:<br>
 -Tolkien themed rc.lua<br>
