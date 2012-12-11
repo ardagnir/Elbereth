@@ -20,10 +20,8 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
--- Load Debian menu entries
-require("debian.menu")
 
-require("vicious")
+vicious=require("vicious")
 require("blingbling")
 
 
@@ -67,7 +65,7 @@ end
 beautiful.init("/usr/share/awesome/themes/elbereth/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
+terminal = "lxterminal"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -78,10 +76,10 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-run_once("nm-applet")
+--run_once("nm-applet")
 run_once("mpd")
-run_once("xscreensaver")
-run_once("conky", '-c ~/.config/awesome/themes/elbereth/conky/modalconky')
+--run_once("xscreensaver")
+run_once("conky", '-c /usr/share/awesome/themes/elbereth/conky/modalconky')
 awful.util.spawn_with_shell("sudo pglcmd stop")
 awful.util.spawn_with_shell("touch ~/.config/awesome/conkystate")
 
@@ -124,7 +122,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    --{ "Debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal }
                                   }
                         })
@@ -206,13 +204,11 @@ for s = 1, screen.count() do
 	
 --                                              return awful.widget.tasklist.label.focused(c, s)
                                           end, mytasklist.buttons)
-    --This is a hack to shrink the wibox
-    awesome.font="Tengwar Formal CSUR 6"
      -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
     mywibox2[s] = awful.wibox({ position = "bottom", screen = s })
-    --Restore font (other half of hack)
-    awesome.font="Tengwar Formal CSUR 11"
+    mywibox[s].height=19
+    mywibox2[s].height=19
 
     -- Cpu Widget
     cpulabel= widget({ type = "textbox" })
@@ -220,8 +216,8 @@ for s = 1, screen.count() do
 
     cpu=blingbling.classical_graph.new()
     cpu:set_font_size(8)
-    cpu:set_height(21)
-    cpu:set_width(125)
+    cpu:set_height(19)
+    cpu:set_width(100)
     cpu:set_show_text(false)
     cpu:set_label("Load: $percent %")
     cpu:set_graph_color("#e7e444dd")
@@ -240,10 +236,10 @@ for s = 1, screen.count() do
   
     memwidget = blingbling.classical_graph.new()
     memwidget:set_font_size(8)
-    memwidget:set_height(22)
+    memwidget:set_height(19)
     memwidget:set_h_margin(1.5)
     memwidget:set_v_margin(1.5)
-    memwidget:set_width(125)
+    memwidget:set_width(100)
     memwidget:set_filled(true)
     memwidget:set_show_text(false)
     memwidget:set_filled_color("#292b2bff")
@@ -253,12 +249,15 @@ for s = 1, screen.count() do
     memwidget:set_graph_line_color(beautiful.fg_focus)
     vicious.register(memwidget, vicious.widgets.mem, "$1", 5)
 
+    battwidget = widget({type = "textbox" })
+    vicious.register(battwidget, vicious.widgets.bat, '$1$2', 61, 'BAT1')
+
     -- Disk Free Widgets
     dflabel= widget({ type = "textbox" })
     dflabel.text="    /home: "
     df=blingbling.progress_graph.new()
-    df:set_height(22)
-    df:set_width(125)
+    df:set_height(19)
+    df:set_width(100)
     df:set_graph_color("#e7e444dd")
     df:set_graph_line_color(beautiful.fg_focus)
     df:set_horizontal(true)
@@ -273,8 +272,8 @@ for s = 1, screen.count() do
     df2label.text="    /: "
 
     df2=blingbling.progress_graph.new()
-    df2:set_height(22)
-    df2:set_width(125)
+    df2:set_height(19)
+    df2:set_width(100)
     df2:set_graph_color("#e7e444dd")
     df2:set_graph_line_color(beautiful.fg_focus)
     df2:set_horizontal(true)
@@ -298,7 +297,7 @@ for s = 1, screen.count() do
 
     my_mpd=blingbling.mpd_visualizer.new()
     my_mpd:set_height(20)
-    my_mpd:set_width(340)
+    my_mpd:set_width(266)
     my_mpd:update()
     my_mpd:set_line(true)
     my_mpd:set_h_margin(2)
@@ -306,7 +305,7 @@ for s = 1, screen.count() do
     my_mpd:set_mpc_commands()
     my_mpd:set_launch_mpd_client(terminal .. " -e ncmpcpp")
     my_mpd:set_show_text(true)
-    my_mpd:set_font_size(12)
+    my_mpd:set_font_size(10)
     my_mpd:set_background_text_color(beautiful.bg_normal)
     my_mpd:set_text_color(beautiful.fg_focus)
     my_mpd:set_error_text_color(beautiful.fg_normal)
@@ -338,9 +337,9 @@ for s = 1, screen.count() do
     
     -- Spacing
     gap =widget({ type = "textbox"})
-    gap.text="    "
+    gap.text="  "
     biggap =widget({ type = "textbox"})
-    biggap.text="                    "
+    biggap.text="      "
     smallgap =widget({ type = "textbox"})
     smallgap.text=" "
 
@@ -377,6 +376,7 @@ for s = 1, screen.count() do
             mylauncher,
             mytaglist[s],
             smallgap,
+            smallgap,
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
@@ -384,6 +384,8 @@ for s = 1, screen.count() do
         mytextclock,smallgap,
         my_volume.widget,
         volume_label,
+	smallgap,
+	battwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -405,11 +407,15 @@ globalkeys = awful.util.table.join(
 
 --Shift-Mod-P suspends
     awful.key({ modkey,  "Shift"         }, "p",  function () 
-awful.util.spawn_with_shell("sudo pm-suspend") end     ),
+awful.util.spawn_with_shell("systemctl suspend") end     ),
+    --awful.key({ modkey,  "Shift"         }, "p",  function () 
+--awful.util.spawn_with_shell("sudo pm-suspend") end     ),
 
 --Control-Mod-P hibernates
     awful.key({ modkey,  "Control"         }, "p",  function () 
-awful.util.spawn_with_shell("sudo pm-hibernate") end     ),
+awful.util.spawn_with_shell("systemctl hibernate") end     ),
+    --awful.key({ modkey,  "Control"         }, "p",  function () 
+--awful.util.spawn_with_shell("sudo pm-hibernate") end     ),
 
 --Mod-S opens ncmcpp
     awful.key({ modkey,           }, "s",  function () 
@@ -484,7 +490,7 @@ awful.util.spawn_with_shell("echo 0 > ~/.config/awesome/conkystate") end     ),
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Shift"  }, "m", awesome.quit),
 
     awful.key({ modkey,           }, "=",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "-",     function () awful.tag.incmwfact(-0.05)    end),
@@ -496,6 +502,7 @@ awful.util.spawn_with_shell("echo 0 > ~/.config/awesome/conkystate") end     ),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
+    awful.key({modkey, "Shift" }, "n", function () awful.util.spawn_with_shell('netflix-desktop') end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
@@ -522,11 +529,6 @@ clientkeys = awful.util.table.join(
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
-        end),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
         end)
 )
 
@@ -602,7 +604,9 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    { rule = { class = "Gnome-terminal" },
+    { rule = { class = "Lxterminal" },
+      properties = { }, callback = awful.client.setslave },
+    { rule = { class = "Gnome-Terminal" },
       properties = { }, callback = awful.client.setslave },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
