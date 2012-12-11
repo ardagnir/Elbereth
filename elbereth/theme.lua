@@ -4,7 +4,7 @@
 
 theme = {}
 
-theme.font          = "Tengwar Formal CSUR 11"
+theme.font          = "Tengwar Formal CSUR 10"
 
 theme.bg_normal     = "#333535"
 theme.bg_focus      = "#333535"
