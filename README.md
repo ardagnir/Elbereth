@@ -29,7 +29,7 @@ Copy rc.lua to ~/.config/awesome/rc.lua
 I use the +event tag in taskwarrior to mark events but it should be simple to hack this however you want.
 
 <b>License</b>:<br>
-The rc.lua file is liscensed under GPL v 2.0 or later
+Elbereth is liscensed under GPL v 2.0 or later
 
 <b>TODO</b>:<br>
 Document controls. Right now you can find them in the rc.lua.
