@@ -14,7 +14,8 @@ This is my Elbereth theme/rc.lua for AwesomeWM.
 <b>Requirements</b>:<br>
 Awesome window manager 3.4.11<br>
 Tengwar Formal CSUR font (http://freetengwar.sourceforge.net/formal.html)<br>
-blingbling (my screenshots are with my fork, but it should work with the original)
+blingbling (my screenshots are with my fork, but it should work with the original)<Br>
+You'll need to include your own super cool background image as lotr.png
 
 <b>Also uses</b>:<br>
 conky, taskwarrior, mpd, etc...
@@ -29,8 +30,8 @@ Copy rc.lua to ~/.config/awesome/rc.lua
 I use the +event tag in taskwarrior to mark events but it should be simple to hack this however you want.
 
 <b>License</b>:<br>
-The rc.lua file is liscensed under GPL v 2.0<br>
-I have no connection with the Tolkien Estate but belive that believe that any copyrighted material is used under the Fair Use portion of United States copyright law.
+Elbereth is liscensed under GPL v2.0 or later<br>
 
 <b>TODO</b>:<br>
 Document controls. Right now you can find them in the rc.lua.
+This isn't really supported or maintained, but feel free to use it or draw inspiration for your own Awesome themes.
